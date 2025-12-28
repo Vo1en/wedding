@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>黃裕勝 & 馬璦嵐 家宴邀請函</title>
+    <meta name="description" content="黃裕勝與馬璦嵐的家宴邀請函 - 2026年3月28日誠摯邀請您共享這份喜悅。地點：北投麗禧溫泉酒店" />
+    <link rel="preload" as="image" href="https://vo1en.github.io/wedding/142.webp" />
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%239e2b2b' stroke='%234a0e0e' stroke-width='2'/%3E%3Ctext x='50' y='65' font-family='serif' font-size='50' fill='%23d4af37' text-anchor='middle' font-weight='bold'%3EW%3C/text%3E%3C/svg%3E">
 
@@ -14,9 +16,9 @@
 
     <meta property="og:title" content="黃裕勝 & 馬璦嵐 家宴邀請函" />
     <meta property="og:description" content="誠摯邀請您與我們共享這份喜悅 2026.03.28" />
-    <meta property="og:image" content="https://vo1en.github.io/Wedding/1.webp" />
+    <meta property="og:image" content="https://vo1en.github.io/wedding/1.webp" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://vo1en.github.io/Wedding/" />
+    <meta property="og:url" content="https://vo1en.github.io/wedding/" />
 
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -24,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="黃裕勝 & 馬璦嵐 家宴邀請函" />
     <meta name="twitter:description" content="誠摯邀請您與我們共享這份喜悅 2026.03.28" />
-    <meta name="twitter:image" content="https://vo1en.github.io/Wedding/1.webp" />
+    <meta name="twitter:image" content="https://vo1en.github.io/wedding/1.webp" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -767,7 +769,7 @@
         const { useState, useEffect, useRef, memo, useCallback } = React;
 
         // --- Static Data & Constants ---
-        const BASE_IMAGE_URL = "https://vo1en.github.io/Wedding/";
+        const BASE_IMAGE_URL = "https://vo1en.github.io/wedding/";
         const PHOTOS = ["142.webp", "21.webp", "113.webp", "145.webp", "146.webp", "51.webp", "68.webp", "98.webp", "100.webp", "109.webp", "120.webp"];
         const CROP_INDICES = [0, 1, 2, 3, 4];
         const TARGET_DATE = new Date('2026-03-28T12:00:00').getTime();
@@ -1080,7 +1082,7 @@
                                 const isActive = index === currentPhotoIndex;
                                 return (
                                     <div key={photo} className={`carousel-slide ${isActive ? 'active' : ''}`}>
-                                        <div className="absolute inset-0 overflow-hidden">
+                                        <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-[#F5F0E8] to-[#E8E0D5]">
                                             <img src={BASE_IMAGE_URL + photo} alt="婚紗照片背景" className="w-full h-full object-cover blur-xl opacity-30" loading="lazy" />
                                         </div>
                                         <img src={BASE_IMAGE_URL + photo} alt={`黃裕勝與馬璦嵐婚紗照 ${index + 1}`} className={`relative z-10 w-full h-full ${isCover ? 'object-cover' : 'object-contain'}`} loading="lazy" />
@@ -1090,9 +1092,9 @@
                         </div>
                     </div>
                     <div className="flex justify-center items-center mt-6 gap-6">
-                        <button onClick={prevPhoto} className="text-[#B07D62] opacity-60 hover:opacity-100 p-3 text-xl transition-opacity"><i className="fa-solid fa-chevron-left"></i></button>
+                        <button onClick={prevPhoto} aria-label="上一張照片" className="text-[#B07D62] opacity-60 hover:opacity-100 active:scale-90 p-3 text-xl transition-all"><i className="fa-solid fa-chevron-left"></i></button>
                         <div className="font-cinzel text-xs text-[#999] tracking-widest">{currentPhotoIndex + 1} / {PHOTOS.length}</div>
-                        <button onClick={nextPhoto} className="text-[#B07D62] opacity-60 hover:opacity-100 p-3 text-xl transition-opacity"><i className="fa-solid fa-chevron-right"></i></button>
+                        <button onClick={nextPhoto} aria-label="下一張照片" className="text-[#B07D62] opacity-60 hover:opacity-100 active:scale-90 p-3 text-xl transition-all"><i className="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
             );
@@ -1102,7 +1104,6 @@
         const WeddingInvite = () => {
             const [isOpening, setIsOpening] = useState(false);
             const [hasEntered, setHasEntered] = useState(false);
-            const [isCopied, setIsCopied] = useState(false);
             const [isPlaying, setIsPlaying] = useState(false);
             const [showScrollHint, setShowScrollHint] = useState(true);
             const audioRef = useRef(null);
@@ -1146,7 +1147,16 @@
                 const audio = audioRef.current;
                 if (audio) {
                     audio.volume = 0.5;
-                    audio.play().then(() => setIsPlaying(true)).catch(e => console.log("Play failed", e));
+                    audio.volume = 0;
+                    audio.play().then(() => {
+                        setIsPlaying(true);
+                        let vol = 0;
+                        const fadeIn = setInterval(() => {
+                            vol = Math.min(vol + 0.1, 1);
+                            audio.volume = vol;
+                            if (vol >= 1) clearInterval(fadeIn);
+                        }, 150);
+                    }).catch(e => console.log("Play failed", e));
                 }
                 setIsOpening(true);
                 setTimeout(() => {
@@ -1162,18 +1172,40 @@
                 setIsPlaying(!isPlaying);
             }, [isPlaying]);
 
-            const copyAddress = useCallback(() => {
-                navigator.clipboard.writeText("台北市北投區幽雅路30號").then(() => {
-                    setIsCopied(true);
-                    setTimeout(() => setIsCopied(false), 2000);
-                });
-            }, []);
-
             const openMap = () => window.open("https://www.google.com/maps/search/?api=1&query=北投麗禧溫泉酒店&query_place_id=ChIJ4f8v-2upQjQR_4f8v-2upQjQR", "_blank");
+
+            const addToCalendar = useCallback(() => {
+                const isApple = /iPhone|iPad|iPod|Mac/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent);
+                if (isApple) {
+                    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invite//EN
+BEGIN:VEVENT
+UID:wedding-20260328@invite
+DTSTAMP:20241229T000000Z
+DTSTART:20260328T040000Z
+DTEND:20260328T070000Z
+SUMMARY:黃裕勝 & 馬璦嵐 家宴
+DESCRIPTION:誠摯邀請您參與我們的家宴，中午12:00準時開席
+LOCATION:北投麗禧溫泉酒店 - 台北市北投區幽雅路30號
+END:VEVENT
+END:VCALENDAR`;
+                    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = '家宴邀請.ics';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                } else {
+                    window.open("https://www.google.com/calendar/render?action=TEMPLATE&text=黃裕勝%26馬璦嵐家宴&dates=20260328T040000Z/20260328T070000Z&details=誠摯邀請您參與&location=北投麗禧溫泉酒店", "_blank");
+                }
+            }, []);
 
             return (
                 <div className={`min-h-screen flex justify-center py-0 md:py-12 bg-[#FDFBF7] bg-texture font-serif-tc relative ${!hasEntered ? 'h-screen overflow-hidden' : ''}`}>
-                    <audio ref={audioRef} src="https://vo1en.github.io/Wedding/bgm.mp3" loop preload="auto" />
+                    <audio ref={audioRef} src="https://vo1en.github.io/wedding/bgm.mp3" loop preload="auto" />
 
                     {/* --- 開場信封層 --- */}
                     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF7] bg-texture transition-all duration-1000
@@ -1213,6 +1245,7 @@
                     </div>
 
                     <button onClick={toggleMusic}
+                        aria-label={isPlaying ? "暫停背景音樂" : "播放背景音樂"}
                         className={`fixed bottom-6 right-6 z-[60] w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-700 border border-[#C5A059]/30
                         ${isPlaying ? 'bg-[#B07D62] text-white animate-spin-slow' : 'bg-white/90 backdrop-blur-sm text-[#B07D62]'}
                         ${!hasEntered ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'}`}>
@@ -1274,7 +1307,9 @@
                                         <CountdownTimer targetDate={TARGET_DATE} />
 
                                         <div className="mt-2">
-                                            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=黃裕勝%26馬璦嵐家宴&dates=20260328T040000Z/20260328T070000Z&details=誠摯邀請您參與&location=北投麗禧溫泉酒店" target="_blank" className="text-xs border border-[#C5A059] text-[#C5A059] px-3 py-1 rounded hover:bg-[#C5A059] hover:text-white transition-colors">加入行事曆</a>
+                                            <button onClick={addToCalendar} className="text-xs border border-[#C5A059] text-[#C5A059] px-4 py-1.5 rounded hover:bg-[#C5A059] hover:text-white active:scale-95 transition-all inline-flex items-center gap-1.5">
+                                                <i className="fa-regular fa-calendar-plus"></i> 加入行事曆
+                                            </button>
                                         </div>
                                     </div>
                                     <div className="w-12 h-[1px] bg-[#B07D62]/20 mx-auto"></div>
@@ -1282,11 +1317,8 @@
                                         <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#F5F2EE] text-[#B07D62] mb-3"><i className="fa-solid fa-location-dot"></i></div>
                                         <p className="text-xl font-bold text-[#333] font-serif-tc mb-1">北投麗禧溫泉酒店</p>
                                         <p className="text-sm text-[#777] mb-4">台北市北投區幽雅路30號</p>
-                                        <div className="flex gap-2 justify-center">
-                                            <button onClick={openMap} className="flex-1 max-w-[120px] py-2 bg-[#B07D62] text-white text-xs tracking-wider rounded shadow hover:bg-[#9A6D55]">地圖導航</button>
-                                            <button onClick={copyAddress} className="flex-1 max-w-[120px] py-2 bg-white border border-[#B07D62] text-[#B07D62] text-xs tracking-wider rounded shadow hover:bg-[#F9F5F0]">
-                                                {isCopied ? "已複製" : "複製地址"}
-                                            </button>
+                                        <div className="flex justify-center">
+                                            <button onClick={openMap} className="py-2 px-6 bg-[#B07D62] text-white text-xs tracking-wider rounded shadow hover:bg-[#9A6D55] active:scale-95 transition-all">地圖導航</button>
                                         </div>
                                     </div>
                                 </div>
